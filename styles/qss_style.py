@@ -9,15 +9,15 @@ from files import variables
 # Utilizando 2 chaves para o Fstring entender que
 # nao é para ler a chave dupla e sim apenas a que esta sozinha
 qss = f"""
-    PushButton[cssClass="specialButton"] {{
+    QPushButton[cssClass="specialButton"] {{
         color: #fff;
         background: {variables.PRIMARY_COLOR};
     }}
-    PushButton[cssClass="specialButton"]:hover {{
+    QPushButton[cssClass="specialButton"]:hover {{
         color: #fff;
         background: {variables.DARKER_PRIMARY_COLOR};
     }}
-    PushButton[cssClass="specialButton"]:pressed {{
+    QPushButton[cssClass="specialButton"]:pressed {{
         color: #fff;
         background: {variables.DARKEST_PRIMARY_COLOR};
     }}

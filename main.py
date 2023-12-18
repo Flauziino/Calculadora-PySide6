@@ -2,7 +2,7 @@ import sys
 
 from infos import info
 from display import display
-from main_window import main_widow
+from main_window import main_widow, buttons
 from PySide6.QtWidgets import QApplication
 from styles import qss_style
 
@@ -22,6 +22,10 @@ if __name__ == '__main__':
     # Cria display
     display = display.Display()
     window.addToLayout(display)
+
+    # Button
+    button = buttons.Button('btn')
+    window.addToLayout(button)
 
     # Executa tudo
     window.adjustFixedSize()
