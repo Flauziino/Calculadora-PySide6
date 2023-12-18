@@ -1,8 +1,10 @@
 import sys
 
+from infos import info
 from display import display
-from PySide6.QtWidgets import QApplication, QLabel
 from main_window import main_widow
+from PySide6.QtWidgets import QApplication
+from styles import qss_style
 
 
 if __name__ == '__main__':
@@ -10,14 +12,16 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = main_widow.MainWindow()
 
+    qss_style.setupTheme()
+
+    # Info
+    info = info.MyInfo()
+    info.setText('2.0 ^ 10.0 = 1024')
+    window.addToLayout(info)
+
     # Cria display
     display = display.Display()
     window.addToLayout(display)
-
-    label1 = QLabel('O meu texto')
-    label1.setStyleSheet('font-size: 150px;')
-    window.addToLayout(label1)
-    window.adjustFixedSize()
 
     # Executa tudo
     window.adjustFixedSize()

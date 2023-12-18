@@ -15,5 +15,5 @@ class Display(QLineEdit):
         self.setMinimumHeight(variables.BIG_FONT_SIZE * 2)
         # Alinhamento a direita
         self.setAlignment(Qt.AlignmentFlag.AlignRight)
-        # Margem do texto
+        # Margem do texto com list compreehnsion
         self.setTextMargins(*[variables.TEXT_MARGIN for _ in range(4)])
