@@ -4,6 +4,7 @@ from files import variables
 from utils import util
 from display import display
 from infos import info
+from . import main_widow
 import math
 
 
@@ -21,7 +22,9 @@ class Button(QPushButton):
 
 class ButtonsGrid(QGridLayout):
     def __init__(
-            self, display: display.Display, info: info.MyInfo,
+            self,
+            display: display.Display,
+            info: info.MyInfo, window: main_widow.MainWindow,
             *args, **kwargs
             ):
         super().__init__(*args, **kwargs)
@@ -34,6 +37,7 @@ class ButtonsGrid(QGridLayout):
             ['',  '0', '.', '='],
         ]
 
+        self.window = window
         self.info = info
         self.display = display
         self._equation = ''
@@ -124,6 +128,7 @@ class ButtonsGrid(QGridLayout):
         # Se a pessoa clicou no operador sem
         # configurar qualquer número
         if not util.isValidNumber(displayText) and self._left is None:
+            self._showError('Voce nao digitou nada')
             return
 
         # Se houver algo no número da esquerda,
@@ -152,10 +157,10 @@ class ButtonsGrid(QGridLayout):
                 result = eval(self.equation)
 
         except ZeroDivisionError:
-            print('Zero Division Error!')
+            self._showError('Zero Division Error')
 
         except OverflowError:
-            print('Out of range')
+            self._showError('Numero muito grande')
 
         self.display.clear()
         self.info.setText(f'{self.equation} = {result}')
@@ -164,3 +169,25 @@ class ButtonsGrid(QGridLayout):
 
         if result == 'error':
             self._left = None
+
+    def _showError(self, text):
+        msgBox = self.window.makeMsgBox()
+        msgBox.setText(text)
+        msgBox.setIcon(msgBox.Icon.Warning)
+
+        msgBox.setStandardButtons(
+            msgBox.StandardButton.Ok |
+            msgBox.StandardButton.Cancel
+        )
+        msgBox.exec()
+
+    def _showInfo(self, text):
+        msgBox = self.window.makeMsgBox()
+        msgBox.setText(text)
+        msgBox.setIcon(msgBox.Icon.Information)
+
+        msgBox.setStandardButtons(
+            msgBox.StandardButton.Ok |
+            msgBox.StandardButton.Cancel
+        )
+        msgBox.exec()
