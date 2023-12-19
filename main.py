@@ -2,9 +2,9 @@ import sys
 
 from infos import info
 from display import display
+from styles import qss_style
 from main_window import main_widow, buttons
 from PySide6.QtWidgets import QApplication
-from styles import qss_style
 
 
 if __name__ == '__main__':
@@ -17,15 +17,21 @@ if __name__ == '__main__':
     # Info
     info = info.MyInfo()
     info.setText('2.0 ^ 10.0 = 1024')
-    window.addToLayout(info)
+    window.addWidgetToVLayout(info)
 
     # Cria display
     display = display.Display()
-    window.addToLayout(display)
+    window.addWidgetToVLayout(display)
+
+    # Grid
+    buttonsGrid = buttons.ButtonsGrid()
+    window.vLayout.addLayout(buttonsGrid)
 
     # Button
-    button = buttons.Button('btn')
-    window.addToLayout(button)
+    # buttonsGrid.addWidget(buttons.Button('0'), 0, 0)
+    # buttonsGrid.addWidget(buttons.Button('1'), 0, 1)
+    # buttonsGrid.addWidget(buttons.Button('2'), 0, 2)
+    # buttonsGrid.addWidget(buttons.Button('3'), 0, 3)
 
     # Executa tudo
     window.adjustFixedSize()
