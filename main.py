@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
     # Info
     info = info.MyInfo()
-    info.setText('2.0 ^ 10.0 = 1024')
+    info.setText('HARO')
     window.addWidgetToVLayout(info)
 
     # Cria display
@@ -24,7 +24,7 @@ if __name__ == '__main__':
     window.addWidgetToVLayout(display)
 
     # Grid
-    buttonsGrid = buttons.ButtonsGrid(display)
+    buttonsGrid = buttons.ButtonsGrid(display, info)
     window.vLayout.addLayout(buttonsGrid)
 
     # Button

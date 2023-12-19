@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QPushButton, QGridLayout
 from files import variables
 from utils import util
 from display import display
+from infos import info
 
 
 class Button(QPushButton):
@@ -18,7 +19,10 @@ class Button(QPushButton):
 
 
 class ButtonsGrid(QGridLayout):
-    def __init__(self, display: display.Display, *args, **kwargs):
+    def __init__(
+            self, display: display.Display, info: info.MyInfo,
+            *args, **kwargs
+            ):
         super().__init__(*args, **kwargs)
 
         self._gridMask = [
@@ -29,8 +33,25 @@ class ButtonsGrid(QGridLayout):
             ['',  '0', '.', '='],
         ]
 
+        self.info = info
         self.display = display
+        self._equation = ''
+        self._initialEquation = 'Sua conta'
+        self._left = None
+        self._right = None
+        self._operator = None
         self._makeGrid()
+
+        self.equation = self._initialEquation
+
+    @property
+    def equation(self):
+        return self._equation
+
+    @equation.setter
+    def equation(self, value):
+        self._equation = value
+        self.info.setText(value)
 
     def _makeGrid(self):
         for i, row in enumerate(self._gridMask):
@@ -43,14 +64,30 @@ class ButtonsGrid(QGridLayout):
                         buttonText
                         ):
                     button.setProperty('cssClass', 'specialButton')
+                    self._configSpecialButton(button)
+
                 self.addWidget(button, i, j)
-                buttonSlot = self._makeButtonDisplaySlot(
+                slot = self._makeSlot(
                     self._insertButtonTextToDisplay,
                     button,
                 )
-                button.clicked.connect(buttonSlot)  # type: ignore
+                self._connectButtonClicked(button, slot)
 
-    def _makeButtonDisplaySlot(self, func, *args, **kwargs):
+    def _connectButtonClicked(self, button, slot):
+        button.clicked.connect(slot)
+
+    def _configSpecialButton(self, button):
+        text = button.text()
+
+        if text == 'C':
+            self._connectButtonClicked(button, self._clear)
+
+        if text in '+-/*':
+            self._connectButtonClicked(
+                button,
+                self._makeSlot(self._operatorClicked, button))
+
+    def _makeSlot(self, func, *args, **kwargs):
         @Slot(bool)
         def realSlot(_):
             func(*args, **kwargs)
@@ -64,3 +101,28 @@ class ButtonsGrid(QGridLayout):
             return
 
         self.display.insert(button_text)
+
+    def _clear(self):
+        self._left = None
+        self._right = None
+        self._operator = None
+        self.equation = self._initialEquation
+        self.display.clear()
+
+    def _operatorClicked(self, button):
+        buttonText = button.text()  # operadores (+-/*)
+        displayText = self.display.text()  # numero (self._left)
+        self.display.clear()
+
+        # Se a pessoa clicou no operador sem
+        # configurar qualquer número
+        if not util.isValidNumber(displayText) and self._left is None:
+            return
+
+        # Se houver algo no número da esquerda,
+        # não fazemos nada. Aguardaremos o número da direita.
+        if self._left is None:
+            self._left = float(displayText)
+
+        self._operator = buttonText
+        self.equation = f'{self._left} {self._operator} ?'

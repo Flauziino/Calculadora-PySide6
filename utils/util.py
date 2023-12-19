@@ -19,6 +19,5 @@ def isValidNumber(string: str):
         valid = True
         return valid
     except ValueError:
-        print('deu ruim')
         valid = False
         return valid
