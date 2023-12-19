@@ -27,12 +27,6 @@ if __name__ == '__main__':
     buttonsGrid = buttons.ButtonsGrid(display, info, window)
     window.vLayout.addLayout(buttonsGrid)
 
-    # Button
-    # buttonsGrid.addWidget(buttons.Button('0'), 0, 0)
-    # buttonsGrid.addWidget(buttons.Button('1'), 0, 1)
-    # buttonsGrid.addWidget(buttons.Button('2'), 0, 2)
-    # buttonsGrid.addWidget(buttons.Button('3'), 0, 3)
-
     # Executa tudo
     window.adjustFixedSize()
     window.show()
