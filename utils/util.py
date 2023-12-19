@@ -10,3 +10,15 @@ def isNumOrDot(string: str):
 
 def isEmpty(string: str):
     return len(string) == 0
+
+
+def isValidNumber(string: str):
+    valid = False
+    try:
+        float(string)
+        valid = True
+        return valid
+    except ValueError:
+        print('deu ruim')
+        valid = False
+        return valid

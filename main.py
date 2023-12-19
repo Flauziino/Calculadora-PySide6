@@ -24,7 +24,7 @@ if __name__ == '__main__':
     window.addWidgetToVLayout(display)
 
     # Grid
-    buttonsGrid = buttons.ButtonsGrid()
+    buttonsGrid = buttons.ButtonsGrid(display)
     window.vLayout.addLayout(buttonsGrid)
 
     # Button
