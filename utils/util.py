@@ -8,6 +8,14 @@ def isNumOrDot(string: str):
     return bool(NUM_OR_DOT_REGEX.search(string))
 
 
+def convertToNumber(string: str):
+    newNumber = float(string)
+
+    if newNumber.is_integer():
+        newNumber = int(newNumber)
+    return newNumber
+
+
 def isEmpty(string: str):
     return len(string) == 0
 
